@@ -1,0 +1,1 @@
+{"ast":null,"code":"import { InjectionToken } from '@angular/core';\nexport var JWT_OPTIONS = new InjectionToken('JWT_OPTIONS');","map":null,"metadata":{},"sourceType":"module","externalDependencies":[]}
