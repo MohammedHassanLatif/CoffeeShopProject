@@ -1,8 +1,9 @@
 {
 	"info": {
-		"_postman_id": "fd7ff44b-ca78-4686-a561-096232f6ed69",
+		"_postman_id": "fc216861-a33b-404d-9acf-5d32f703425c",
 		"name": "udacity-fsnd-udaspicelatte",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "28356037"
 	},
 	"item": [
 		{
@@ -50,7 +51,7 @@
 							"listen": "test",
 							"script": {
 								"exec": [
-									"pm.test(\"Status code is 401\", function () {",
+									"pm.test(\"Status code is 401 since no credentials are present\", function () {",
 									"    pm.response.to.have.status(401);",
 									"});"
 								],
@@ -80,7 +81,7 @@
 							"listen": "test",
 							"script": {
 								"exec": [
-									"pm.test(\"Status code is 401\", function () {",
+									"pm.test(\"Status code is 401 since no credentials are present\", function () {",
 									"    pm.response.to.have.status(401);",
 									"});"
 								],
@@ -110,7 +111,7 @@
 							"listen": "test",
 							"script": {
 								"exec": [
-									"pm.test(\"Status code is 401\", function () {",
+									"pm.test(\"Status code is 401 since no credentials are present\", function () {",
 									"    pm.response.to.have.status(401);",
 									"});"
 								],
@@ -141,7 +142,7 @@
 							"listen": "test",
 							"script": {
 								"exec": [
-									"pm.test(\"Status code is 401\", function () {",
+									"pm.test(\"Status code is 401 since no credentials are present\", function () {",
 									"    pm.response.to.have.status(401);",
 									"});"
 								],
@@ -242,8 +243,8 @@
 							"listen": "test",
 							"script": {
 								"exec": [
-									"pm.test(\"Status code is 401\", function () {",
-									"    pm.response.to.have.status(401);",
+									"pm.test(\"Status code is 403 since credentials are valid, but permission is not present\", function () {",
+									"    pm.response.to.have.status(403);",
 									"});"
 								],
 								"type": "text/javascript"
@@ -282,8 +283,8 @@
 							"listen": "test",
 							"script": {
 								"exec": [
-									"pm.test(\"Status code is 401\", function () {",
-									"    pm.response.to.have.status(401);",
+									"pm.test(\"Status code is 403 since credentials are valid, but permission is not present\", function () {",
+									"    pm.response.to.have.status(403);",
 									"});"
 								],
 								"type": "text/javascript"
@@ -313,8 +314,8 @@
 							"listen": "test",
 							"script": {
 								"exec": [
-									"pm.test(\"Status code is 401\", function () {",
-									"    pm.response.to.have.status(401);",
+									"pm.test(\"Status code is 403 since credentials are valid, but permission is not present\", function () {",
+									"    pm.response.to.have.status(403);",
 									"});"
 								],
 								"type": "text/javascript"
@@ -343,7 +344,7 @@
 				"bearer": [
 					{
 						"key": "token",
-						"value": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IldhMGNPMWJTcGN0dVdxMXYyWUZuQiJ9.eyJpc3MiOiJodHRwczovL215YXV0aC1pZGVuLnVzLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw2MDNlNTVmNzRiNDk3OTAwNjkyNjVmMjMiLCJhdWQiOiJjb2ZmZWUiLCJpYXQiOjE2MTQ3NzA2NTksImV4cCI6MTYxNDgwNjY1OSwiYXpwIjoiTlRSV0QyQXlsNFJ6emlnQ3BBOHAxREdvcWJSOHNtUngiLCJzY29wZSI6IiIsInBlcm1pc3Npb25zIjpbImdldDpkcmlua3MtZGV0YWlsIl19.n9TQCPI-zj2vI-6FDVOrAVj30LbZ2N97kOqf2qSgedbAM4DbkVs6EU0TlTLBSmQd-P7l7UB7l4IpUc_eRbV7LSBOvlUwCx9KR9AIldY3bctYsdhqokCbCkC0FViKkqyJFhowcinbrwX8iBOdqDhYDFtY-kL55jcOvKsqEWT7Hkg2lmDRHsP6xZUzXfmD2GGzuisXYUPnvQYuPdWi3CnfSQizdq4V7UJ17kGLnLbu9f9ASFD24BdiilSMQ5-9t_Sbsj9Sw6YraLdXay3UhfBgNCWMKBXtyd4NaTxxEtaRDAHB4oyoNhcz75P7x2t9ZcchqP9yHYvzTCOuI72ZXlGziw",
+						"value": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IjNPMTlNbnJwT09YZWhwM0hBb0RfZCJ9.eyJpc3MiOiJodHRwczovL2hhc3NhbmxhdGlmLnVrLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw2NGMxMGQzM2Q3ZjZmNTkxMzVkOGY4Y2YiLCJhdWQiOiJodHRwOi8vbG9jYWxob3N0OjUwMDAiLCJpYXQiOjE2OTAzODA5MjMsImV4cCI6MTY5MDM4ODEyMywiYXpwIjoiZVh1SjZmQjd6QzBxS292SE93STBMaThUVGR5S1dhWEoiLCJzY29wZSI6IiIsInBlcm1pc3Npb25zIjpbImRlbGV0ZTpkcmlua3MiLCJnZXQ6ZHJpbmtzIiwiZ2V0OmRyaW5rcy1kZXRhaWwiLCJwYXRjaDpkcmlua3MiLCJwb3N0OmRyaW5rcyJdfQ.O7zYFB2lclArqe6tRHMiLU8xKynE5-b_GwgMCxvD_LB9RUixfuhdgCBN0J_oGzMO0zC_8X_1UAJOArP0sL_UGyXPfBIjFiNnP0lS3LIZfbQPWyyCoHt8Tn_czwDpmBPN1FXFnv2xOGEsh14a3IHSzksSWw2YGMdaVINR8yJ-dx0H3h4jsmOBLBiN62FeqhvLtpqAe4g7ikV0cJZbJ6kgpbRrei75hWRI4mm_LmcADbcjy-xSgIPBjhcvMop9ICvY2GE5qABBVoxzu1KkbVcwBb6Wi1zIiiu0tucjQO8I_ZlGaj8TXW_BDubSHm1mM9O-wNb2SNhne5cY9oXp-8XeRw",
 						"type": "string"
 					}
 				]
@@ -567,7 +568,7 @@
 				"bearer": [
 					{
 						"key": "token",
-						"value": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IldhMGNPMWJTcGN0dVdxMXYyWUZuQiJ9.eyJpc3MiOiJodHRwczovL215YXV0aC1pZGVuLnVzLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw2MDNlNDNjNzBmMThkYjAwNjlmYTc3NjYiLCJhdWQiOiJjb2ZmZWUiLCJpYXQiOjE2MTQ3Njk4MDYsImV4cCI6MTYxNDgwNTgwNiwiYXpwIjoiTlRSV0QyQXlsNFJ6emlnQ3BBOHAxREdvcWJSOHNtUngiLCJzY29wZSI6IiIsInBlcm1pc3Npb25zIjpbImRlbGV0ZTpkcmlua3MiLCJnZXQ6ZHJpbmtzLWRldGFpbCIsInBhdGNoOmRyaW5rcyIsInBvc3Q6ZHJpbmtzIl19.CMygt9NNawICUZBPTelNEGSCYFiNE4aiFeFjs7nx-_joQVuk2JboFJRsc3jS4lQdaIyhbcYggoErt6N33jKBpNIjxETz2qFpqU2SAJLaJ5fG6cS6dDqTygl7z2AchID8ak9ERjmLy4se1xhpKRU59sS4aJqPl8itws4WakN3P9-dRxNKYjKV7R9zPh4-5is3bdzUh8cbn1-lgXWk1nFSak1n2TIf2z165fowusa2vo-lJsdjrJMVnEpnVX4DqEvjI3dLgm6vjP04_cTyVzSXj818u_Khm2FlpefQ_q-U6w-XdQ2Mpft-g-jUIB9qWo7T2uCtptDMbp_ESEaHS9loeg",
+						"value": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IjNPMTlNbnJwT09YZWhwM0hBb0RfZCJ9.eyJpc3MiOiJodHRwczovL2hhc3NhbmxhdGlmLnVrLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw2NGMxMGQzM2Q3ZjZmNTkxMzVkOGY4Y2YiLCJhdWQiOiJodHRwOi8vbG9jYWxob3N0OjUwMDAiLCJpYXQiOjE2OTAzODA5MjMsImV4cCI6MTY5MDM4ODEyMywiYXpwIjoiZVh1SjZmQjd6QzBxS292SE93STBMaThUVGR5S1dhWEoiLCJzY29wZSI6IiIsInBlcm1pc3Npb25zIjpbImRlbGV0ZTpkcmlua3MiLCJnZXQ6ZHJpbmtzIiwiZ2V0OmRyaW5rcy1kZXRhaWwiLCJwYXRjaDpkcmlua3MiLCJwb3N0OmRyaW5rcyJdfQ.O7zYFB2lclArqe6tRHMiLU8xKynE5-b_GwgMCxvD_LB9RUixfuhdgCBN0J_oGzMO0zC_8X_1UAJOArP0sL_UGyXPfBIjFiNnP0lS3LIZfbQPWyyCoHt8Tn_czwDpmBPN1FXFnv2xOGEsh14a3IHSzksSWw2YGMdaVINR8yJ-dx0H3h4jsmOBLBiN62FeqhvLtpqAe4g7ikV0cJZbJ6kgpbRrei75hWRI4mm_LmcADbcjy-xSgIPBjhcvMop9ICvY2GE5qABBVoxzu1KkbVcwBb6Wi1zIiiu0tucjQO8I_ZlGaj8TXW_BDubSHm1mM9O-wNb2SNhne5cY9oXp-8XeRw",
 						"type": "string"
 					}
 				]

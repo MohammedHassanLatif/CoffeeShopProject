@@ -3,187 +3,175 @@ from flask import Flask, request, jsonify, abort
 from sqlalchemy import exc
 import json
 from flask_cors import CORS
+from werkzeug.datastructures import ImmutableMultiDict
 
 from .database.models import db_drop_and_create_all, setup_db, Drink
 from .auth.auth import AuthError, requires_auth
 
 app = Flask(__name__)
 setup_db(app)
-cors = CORS(app, resources={r"/*": {"origins": "*"}})
+CORS(app)
+'''
+@TODO uncomment the following line to initialize the datbase [DONE]
+'''
+with app.app_context():
+    db_drop_and_create_all()
 
-@app.after_request
-def after_request(response):
-    response.headers.add(
-                'Allow-Control-Allow-Headers',
-                'Content-Type,Authorization,true'
-                )
-    response.headers.add(
-                'Allow-Control-Allow-Methods',
-                'GET, POST, PATCH, DELETE, OPTIONS'
-                )
-
-    return response
-
-# db_drop_and_create_all()
+## ROUTES
+'''
+@TODO implement endpoint GET /drinks [DONE]
+'''
 
 
-# ROUTES
-@app.route('/drinks', methods=['GET'])
-def get_drinks():
-    drinks = Drink.query.all()
-    # no drinks
-    if len(drinks) == 0:
-        abort(404)
-
-    return jsonify({
-        'success': True,
-        'drinks': [drink.short() for drink in drinks]
-    }), 200
-
-
-@app.route('/drinks-detail', methods=['GET'])
-@requires_auth('get:drinks-detail')
-def get_drinks_details(jwt):
-    drinks = Drink.query.all()
-    if len(drinks) == 0:
-        # no drinks
-        abort(404)
-
-    return jsonify({
-        'success': True,
-        'drinks': [drink.long() for drink in drinks]
-    }), 200
+@app.route('/drinks', methods=['GET'], endpoint='get_drinks')
+def drinks():
+    """
+    Public permission
+    This API fetches all drinks with a short description
+    Return the drinks array or the error handler
+    """
+    try:
+        return json.dumps({
+            'success':
+            True,
+            'drinks': [drink.short() for drink in Drink.query.all()]
+        }), 200
+    except:
+        return json.dumps({
+            'success': False,
+            'error': "An error occurred"
+        }), 500
 
 
-@app.route('/drinks', methods=['POST'])
+'''
+@TODO implement endpoint POST /drinks [DONE]
+'''
+
+
+@app.route('/drinks', methods=['POST'], endpoint='post_drink')
 @requires_auth('post:drinks')
-def create_drinks(jwt):
-    body = request.get_json()
+def drinks(f):
+    """
+     post:drinks permission
+     This API creates a new drink and returns its long description
+     Return the created drink info or the error handler
+     """
 
-    # require body
-    if body is None:
-        abort(400)
-
-    # get body params
-    title = body.get('title', None)
-    recipe = body.get('recipe', None)
-    if (title is None) or (recipe is None):
-        abort(400)
-
-    if not isinstance(recipe, list):
-        abort(422)
-
-    drink = Drink(title=title, recipe=json.dumps(recipe))
+    data = dict(request.form or request.json or request.data)
+    drink = Drink(title=data.get('title'),
+                  recipe=data.get('recipe') if type(data.get('recipe')) == str
+                  else json.dumps(data.get('recipe')))
     try:
         drink.insert()
-    except Exception as e:
-        print(e)
-        abort(422)
-
-    return jsonify({
-        'success': True,
-        'drinks': [drink.long()]
-    }), 200
+        return json.dumps({'success': True, 'drink': drink.long()}), 200
+    except:
+        return json.dumps({
+            'success': False,
+            'error': "An error occurred"
+        }), 500
 
 
-@app.route('/drinks/<int:drink_id>', methods=['PATCH'])
+'''
+@TODO implement endpoint GET /drinks-detail [DONE]
+'''
+
+
+@app.route('/drinks-detail', methods=['GET'], endpoint='drinks_detail')
+@requires_auth('get:drinks-detail')
+def drinks_detail(f):
+    """
+        Public permission
+        This API fetches all drinks with a long description
+        Return the drinks array or the error handler
+        """
+    try:
+        return json.dumps({
+            'success':
+            True,
+            'drinks': [drink.long() for drink in Drink.query.all()]
+        }), 200
+    except:
+        return json.dumps({
+            'success': False,
+            'error': "An error occurred"
+        }), 500
+
+
+'''
+@TODO implement endpoint PATCH /drinks/<id> [DONE]
+'''
+
+
+@app.route('/drinks/<id>', methods=['PATCH'], endpoint='patch_drink')
 @requires_auth('patch:drinks')
-def update_drink(jwt, drink_id):
-    drink = Drink.query.get(drink_id)
-    if drink is None:
-        abort(404)
-
-    body = request.get_json()
-    # require body
-    if body is None:
-        abort(400)
-
-    title = body.get('title', None)
-    recipe = body.get('recipe', None)
-    if title:
-        drink.title = title
-    if recipe:
-        try:
-            drink.recipe = json.dumps(recipe)
-        except Exception as e:
-            print(e)
-            abort(400)
+def drinks(f, id):
+    """
+     patch:drinks permission
+     This API updates a drink if it exists
+     Return the updated drink info or the error handler
+     OBS: I would rather return a single object instead of an array, but POSTman test once again enforces it
+     """
     try:
-        drink.update()
-    except Exception as e:
-        print(e)
-        # can't update exception
-        abort(422)
+        data = dict(request.form or request.json or request.data)
+        drink = drink = Drink.query.filter(Drink.id == id).one_or_none()
+        if drink:
+            drink.title = data.get('title') if data.get(
+                'title') else drink.title
+            recipe = data.get('recipe') if data.get('recipe') else drink.recipe
+            drink.recipe = recipe if type(recipe) == str else json.dumps(
+                recipe)
+            drink.update()
+            return json.dumps({'success': True, 'drinks': [drink.long()]}), 200
+        else:
+            return json.dumps({
+                'success':
+                False,
+                'error':
+                'Drink #' + id + ' not found to be edited'
+            }), 404
+    except:
+        return json.dumps({
+            'success': False,
+            'error': "An error occurred"
+        }), 500
 
-    return jsonify({
-        'success': True,
-        'drinks': [drink.long()]
-    }), 200
+
+'''
+@TODO implement endpoint DELETE /drinks/<id> [DONE]
+'''
 
 
-@app.route('/drinks/<int:drink_id>', methods=['DELETE'])
-@requires_auth('delete:drinks')
-def delete_drink(jwt, drink_id):
-    drink = Drink.query.get(drink_id)
-    if drink is None:
-        abort(404)
-
+@app.route('/drinks/<id>', methods=['DELETE'], endpoint='delete_drink')
+@requires_auth('patch:drinks')
+def drinks(f, id):
+    """
+     delete:drinks permission
+     This API deletes a drink if it exists
+     Return the deleted drink info or the error handler
+     """
     try:
-        drink.delete()
-    except Exception as e:
-        print(e)
-        abort(422)
-
-    return jsonify({
-        'success': True,
-        'delete': drink.id
-    }), 200
-
-
-# Error Handling
-@app.errorhandler(400)
-def bad_request(error):
-    return jsonify({
-        'success': False,
-        'error': 400,
-        'message': 'Bad Request'
-    }), 400
+        drink = drink = Drink.query.filter(Drink.id == id).one_or_none()
+        if drink:
+            drink.delete()
+            return json.dumps({'success': True, 'drink': id}), 200
+        else:
+            return json.dumps({
+                'success':
+                False,
+                'error':
+                'Drink #' + id + ' not found to be deleted'
+            }), 404
+    except:
+        return json.dumps({
+            'success': False,
+            'error': "An error occurred"
+        }), 500
 
 
-@app.errorhandler(401)
-def unauthorized(error):
-    return jsonify({
-        'success': False,
-        'error': 401,
-        'message': 'Unauthorized'
-    }), 401
-
-
-@app.errorhandler(403)
-def forbidden(error):
-    return jsonify({
-        'success': False,
-        'error': 403,
-        'message': 'Permission not allowed'
-    }), 403
-
-
-@app.errorhandler(404)
-def not_found(error):
-    return jsonify({
-        'success': False,
-        'error': 404,
-        'message': 'Not Found'
-    }), 404
-
-
-@app.errorhandler(405)
-def method_not_allowed(error):
-    return jsonify({
-        'success': False,
-        'error': 405,
-        'message': 'Method Not Allowed'
-    }), 405
+## Error Handling
+'''
+Example error handling for unprocessable entity
+'''
 
 
 @app.errorhandler(422)
@@ -191,18 +179,50 @@ def unprocessable(error):
     return jsonify({
         "success": False,
         "error": 422,
-        "message": "Unprocessable"
+        "message": "unprocessable"
     }), 422
 
 
-@app.errorhandler(500)
-def server_error(error):
+@app.errorhandler(400)
+def unprocessable(error):
     return jsonify({
-        'success': False,
-        'error': 500,
-        'message': 'Server error'
-    }), 500
+        "success": False,
+        "error": 400,
+        "message": "Check the body request"
+    }), 400
 
-@app.route('/')
-def index():
-    return 'Hello, World!'
+
+'''
+@TODO implement error handler for Not Found - DONE 
+'''
+
+
+@app.errorhandler(404)
+def unprocessable(error):
+    """
+     Propagates the formatted 404 error to the response
+     """
+    return jsonify({
+        "success": False,
+        "error": 404,
+        "message": "resource not found"
+    }), 404
+
+
+'''
+@TODO implement error handler for AuthError - DONE 
+'''
+
+
+@app.errorhandler(AuthError)
+def handle_auth_error(ex):
+    """
+    Receive the raised authorization error and propagates it as response
+    """
+    response = jsonify(ex.error)
+    response.status_code = ex.status_code
+    return response
+
+# @app.route('/')
+# def index():
+#     return 'Hello, World!'          
