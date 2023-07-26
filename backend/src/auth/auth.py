@@ -10,7 +10,7 @@ ALGORITHMS = ['RS256']
 API_AUDIENCE = 'http://localhost:5000'
 
 
-## AuthError Exception
+# AuthError Exception
 '''
 AuthError Exception
 A standardized way to communicate auth failure modes
@@ -23,7 +23,7 @@ class AuthError(Exception):
         self.status_code = status_code
 
 
-## Auth Header
+# Auth Header
 '''
 @TODO implement get_token_auth_header() method [DONE]
 '''

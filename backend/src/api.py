@@ -17,7 +17,7 @@ CORS(app)
 with app.app_context():
     db_drop_and_create_all()
 
-## ROUTES
+# ROUTES
 '''
 @TODO implement endpoint GET /drinks [DONE]
 '''
@@ -168,7 +168,7 @@ def drinks(f, id):
         }), 500
 
 
-## Error Handling
+# Error Handling
 '''
 Example error handling for unprocessable entity
 '''
@@ -225,4 +225,4 @@ def handle_auth_error(ex):
 
 # @app.route('/')
 # def index():
-#     return 'Hello, World!'          
+#     return 'Hello, World!'
