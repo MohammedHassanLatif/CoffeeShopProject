@@ -4,3 +4,5 @@ env/
 .myenv
 .venv
 backend/myenv
+/__pycache__
+.__pycache__

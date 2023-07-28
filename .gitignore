@@ -11,6 +11,9 @@ env/
 .venv
 backend/myenv
 
+/__pycache__
+.__pycache__
+
 
 # OS generated files #
 ######################
