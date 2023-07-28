@@ -1,2 +1,7 @@
+/myenv/
+/venv/
+/venv
 env/
-myenv/
+.myenv
+.venv
+backend/myenv
