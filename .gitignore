@@ -3,8 +3,13 @@ myenv
 .vscode/
 __pycache__/
 test.db
-
 .idea
+/myenv
+/venv
+env/
+.myenv
+.venv
+backend/myenv
 
 
 # OS generated files #
