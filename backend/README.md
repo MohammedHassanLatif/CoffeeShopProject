@@ -85,3 +85,18 @@ There are `@TODO` comments throughout the `./backend/src`. We recommend tackling
 
 1. `./src/auth/auth.py`
 2. `./src/api.py`
+
+### Issue installing the typed-ast package
+You might come accross an error message suggests that the installation failed because the package requires a newer version of the clang compiler.
+
+To resolve this issue, you can try updating your clang compiler to a newer version. You can do this by running the following command:
+
+xcode-select --install
+
+This command will prompt you to install the Command Line Tools, which include an updated version of clang. After the installation is complete, you can try installing the typed-ast package again using the --use-pep517 option:
+
+pip3 install --use-pep517 typed-ast
+
+This command will prompt you to install the Command Line Tools, which include an updated version of clang. After the installation is complete, you can try installing the typed-ast package again using the --use-pep517 option:
+
+pip3 install --use-pep517 typed-ast

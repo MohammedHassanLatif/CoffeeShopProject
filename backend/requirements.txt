@@ -29,9 +29,8 @@ rsa==4.9
 setuptools==65.6.3
 six==1.16.0
 SQLAlchemy==2.0.19
-typed-ast==1.4.3
 typing_extensions==4.7.1
 Werkzeug==2.3.6
 wrapt==1.11.1
-Flask-Cors==3.0.8
 zipp==3.16.2
+jose==1.0.0
